@@ -8,7 +8,7 @@ export default function NavBar() {
         <p>Street Foodie</p>
       </Link>
       <div className="goToLocation">
-        <Link to={'/mapview'}>
+        <Link to={'/map'}>
           <p>Go to my location</p>
         </Link>
         <input type={'text'} placeholder={'Search a location'} />

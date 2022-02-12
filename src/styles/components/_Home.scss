@@ -36,7 +36,7 @@
   }
 
   .searchLocation {
-    padding-bottom: 130px;
+    padding-bottom: 120px;
     input {
       width: 600px;
       height: 74px;
@@ -51,6 +51,10 @@
       padding: 23px 20px;
       font-size: 20px;
       font-family: 'Adoha Regular';
+    }
+    ::placeholder {
+      color: rgba(165, 165, 165, 0.63);
+      text-align: justify;
     }
   }
 }
