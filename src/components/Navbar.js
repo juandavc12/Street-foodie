@@ -1,7 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import firebaseApp from '../firebase';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+const auth = getAuth(firebaseApp);
+
 export default function NavBar() {
+  const [globalUser, setGlobalUser] = useState(null);
+
+  onAuthStateChanged(auth, (firebaseUser) => {
+    if (firebaseUser) {
+      setGlobalUser(firebaseUser);
+    } else {
+      setGlobalUser(null);
+    }
+  });
+
   return (
     <div className="navbarContainer">
       <Link to={'/'} className="logo">
@@ -16,9 +30,16 @@ export default function NavBar() {
           <img alt="search" src="search.png" />
         </button>
       </div>
-      <Link to={'/login'} className="login">
-        <p>Log in</p>
-      </Link>
+
+      {globalUser ? (
+        <Link to={'/profile'} className="login">
+          <p>Profile</p>
+        </Link>
+      ) : (
+        <Link to={'/login'} className="login">
+          <p>Log in</p>
+        </Link>
+      )}
     </div>
   );
 }

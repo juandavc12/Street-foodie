@@ -5,6 +5,7 @@ import { LocationProvider } from './context/LocationContext';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Map from './pages/Map';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route element={<Home />} path="/" />
           <Route element={<Map />} path="/map" />
           <Route element={<Login />} path="/login" />
+          <Route element={<Profile />} path="/profile" />
         </Routes>
       </LocationProvider>
     </BrowserRouter>
