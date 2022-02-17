@@ -5,8 +5,11 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithRedirect,
+  GoogleAuthProvider,
 } from 'firebase/auth';
 const auth = getAuth(firebaseApp);
+const googleProvider = new GoogleAuthProvider();
 
 export default function Login() {
   const [register, setRegister] = useState(false);
@@ -16,6 +19,7 @@ export default function Login() {
   const submit = async () => {
     if (register) {
       const user = await createUserWithEmailAndPassword(auth, email, password);
+      console.log('🚀 ~ file: Login.js ~ line 22 ~ submit ~ user', user);
     } else {
       signInWithEmailAndPassword(auth, email, password);
     }
@@ -39,6 +43,9 @@ export default function Login() {
         />
         <button type="submit" onClick={submit}>
           {register ? 'Sign up' : 'Log in'}
+        </button>
+        <button onClick={() => signInWithRedirect(auth, googleProvider)}>
+          Acceder con google
         </button>
       </div>
       <button onClick={() => setRegister(!register)}>

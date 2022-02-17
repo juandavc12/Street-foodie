@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import Markers from './Markers';
-import places from '../assets/data.json';
 import LocationContext from '../context/LocationContext';
+import { MyIconLocation } from './IconLocation';
 
 export default function MapView() {
   // const [state, setState] = useState({
@@ -26,18 +26,35 @@ export default function MapView() {
     lat: location.latitude,
     lng: location.longitude,
   };
-  console.log(
-    '🚀 ~ file: MapView.js ~ line 30 ~ MapView ~ currentLocation',
-    currentLocation
-  );
+  // console.log(
+  //   '🚀 ~ file: MapView.js ~ line 30 ~ MapView ~ currentLocation',
+  //   currentLocation
+  // );
+
+  const GetCoords = () => {
+    useMapEvents({
+      click: (e) => {
+        // console.log('mapCenter', e.target.getCenter());
+        // console.log('map bounds', e.target.getBounds());
+        console.log(e.latlng);
+      },
+    });
+    return null;
+  };
 
   return (
-    <MapContainer center={currentLocation} zoom={13}>
+    <MapContainer center={currentLocation} zoom={15}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Markers places={places.places} />
+      <GetCoords />
+      <Marker
+        key={currentLocation.lat}
+        position={currentLocation}
+        icon={MyIconLocation}
+      />
+      <Markers />
     </MapContainer>
   );
 }

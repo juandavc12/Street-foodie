@@ -1,73 +1,39 @@
 {
   "places": [
-      {
-          "name": "Rummels Bucht",
-          "geometry": [
-              52.500772,
-              13.472764
-          ]
-      },
-      {
-          "name": "SEZ Berlin",
-          "geometry": [
-              52.527025,
-              13.446139
-          ]
-      },
-      {
-          "name": "Huxley's Neue Welt",
-          "geometry": [
-              52.486319,
-              13.421437
-          ]
-      },
-      {
-          "name": "Mensch Meier",
-          "geometry": [
-              52.535069,
-              13.452312
-          ]
-      },
-      {
-          "name": "Zur Klappe",
-          "geometry": [
-              52.493039,
-              13.387248
-          ]
-      },
+  
       {
           "name": "OHM",
           "geometry": [
-              52.510507,
-              13.42022
+            6.170731350014865,
+            -75.64465591929374
           ]
       },
       {
           "name": "M-BIA",
           "geometry": [
-              52.522437,
-              13.409063
+            6.178790952976619,
+            -75.63693463111885
           ]
       },
       {
           "name": "Monster Ronson's Ichiban Karaoke",
           "geometry": [
-              52.505188,
-              13.448437
+            6.172095947500381,
+              -75.63796413620882
           ]
       },
       {
           "name": "Marooush Restaurant - Lounge - Bar - Club",
           "geometry": [
-              52.500938,
-              13.321438
+            6.168258008116628,
+            -75.64010893847964
           ]
       },
       {
           "name": "Kater Blau",
           "geometry": [
-              52.512187,
-              13.425563
+            6.169665255784313,
+            -75.65207693515073
           ]
       }
   ]
