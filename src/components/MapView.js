@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { MapContainer, Marker, TileLayer } from 'react-leaflet';
+import { MapContainer, Marker, TileLayer, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import Markers from './Markers';
 import LocationContext from '../context/LocationContext';
@@ -53,7 +53,9 @@ export default function MapView() {
         key={currentLocation.lat}
         position={currentLocation}
         icon={MyIconLocation}
-      />
+      >
+        <Tooltip>You&apos;re here</Tooltip>
+      </Marker>
       <Markers />
     </MapContainer>
   );
