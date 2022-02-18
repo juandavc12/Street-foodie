@@ -9,12 +9,6 @@ const db = getFirestore(firebaseApp);
 export default function Markers() {
   const colRef = collection(db, 'places');
   const [places, setPlaces] = useState([]);
-  // const [activePoint, setActivePoint] = useState(null);
-
-  // console.log(
-  //   '🚀 ~ file: Markers.js ~ line 13 ~ Markers ~ activePoint',
-  //   activePoint
-  // );
 
   const getApi = useCallback(() => {
     getDocs(colRef)
@@ -24,7 +18,6 @@ export default function Markers() {
           placesFirebase.push({ ...doc.data(), id: doc.id });
         });
         setPlaces(placesFirebase);
-        // console.log(placesFirebase);
       })
       .catch((error) => {
         console.error(error);
@@ -38,8 +31,6 @@ export default function Markers() {
   const GetCoords = () => {
     useMapEvents({
       click: (e) => {
-        // console.log('mapCenter', e.target.getCenter());
-        // console.log('map bounds', e.target.getBounds());
         console.log(e.latlng);
         getApi();
 
@@ -48,10 +39,6 @@ export default function Markers() {
           geometry: [e.latlng.lat, e.latlng.lng],
         });
       },
-
-      // mouseover: (e) => {
-      //   Marker.openPopup;
-      // },
     });
     return null;
   };
