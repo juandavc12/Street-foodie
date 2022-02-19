@@ -1,5 +1,9 @@
 import React, { useContext } from 'react';
 import LocationContext from '../context/LocationContext';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import firebaseApp from '../firebase';
+
+const storage = getStorage(firebaseApp);
 
 export default function ModalLocation({ closeModal }) {
   const {
@@ -9,6 +13,8 @@ export default function ModalLocation({ closeModal }) {
     setModalForm,
     setTitle,
     setNewPicture,
+    newPicture,
+    setUrl,
   } = useContext(LocationContext);
 
   const addPoint = () => {
@@ -26,6 +32,27 @@ export default function ModalLocation({ closeModal }) {
     setModalForm(false);
     setNewPoint(true);
     setOpenModal(false);
+
+    const imageRef = ref(storage, `picPlaces/${newPicture.name}`);
+    uploadBytes(imageRef, newPicture)
+      .then(() => {
+        getDownloadURL(imageRef)
+          .then((url) => {
+            setUrl(url);
+          })
+          .catch((error) => {
+            console.error(error.message, 'Error getting the image url');
+          });
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+    setNewPicture(null);
+  };
+
+  const addPicture = (e) => {
+    setNewPicture(e.target.files[0]);
+    setNewPoint(true);
   };
 
   return (
@@ -63,7 +90,7 @@ export default function ModalLocation({ closeModal }) {
               <input
                 placeholder="Subir imagen"
                 type="file"
-                onChange={(e) => setNewPicture(e.target.files[0])}
+                onChange={addPicture}
               />
             </div>
             <div className="footer">

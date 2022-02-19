@@ -3,11 +3,9 @@ import { Marker, Popup, Tooltip, useMapEvents } from 'react-leaflet';
 import { IconLocation } from './IconLocation';
 import firebaseApp from '../firebase';
 import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import LocationContext from '../context/LocationContext';
 
 const db = getFirestore(firebaseApp);
-const storage = getStorage(firebaseApp);
 
 export default function Markers() {
   const {
@@ -17,11 +15,11 @@ export default function Markers() {
     title,
     newPicture,
     setNewPicture,
+    url,
   } = useContext(LocationContext);
 
   const colRef = collection(db, 'places');
   const [places, setPlaces] = useState([]);
-  const [url, setUrl] = useState(null);
 
   const getApi = useCallback(() => {
     getDocs(colRef)
@@ -44,32 +42,19 @@ export default function Markers() {
   const GetCoords = () => {
     useMapEvents({
       click: (e) => {
+        getApi();
+
         setOpenModal(true);
+        setNewPicture(newPicture);
 
         if (newPoint) {
-          getApi();
-          setNewPicture(null);
-
           addDoc(colRef, {
             placeTitle: title,
             geometry: [e.latlng.lat, e.latlng.lng],
             picPlace: { url },
           });
 
-          const imageRef = ref(storage, `picPlaces/${newPicture.name}${title}`);
-          uploadBytes(imageRef, newPicture)
-            .then(() => {
-              getDownloadURL(imageRef)
-                .then((url) => {
-                  setUrl(url);
-                })
-                .catch((error) => {
-                  console.error(error.message, 'Error getting the image url');
-                });
-            })
-            .catch((error) => {
-              console.error(error.message);
-            });
+          // console.log(newPicture);
 
           setNewPoint(false);
           setOpenModal(false);

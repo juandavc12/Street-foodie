@@ -8,6 +8,7 @@ const LocationProvider = ({ children }) => {
   const [modalForm, setModalForm] = useState(false);
   const [title, setTitle] = useState('');
   const [newPicture, setNewPicture] = useState(null);
+  const [url, setUrl] = useState(null);
 
   const [location, setLocation] = useState({
     longitude: 0,
@@ -25,6 +26,8 @@ const LocationProvider = ({ children }) => {
     setTitle,
     newPicture,
     setNewPicture,
+    url,
+    setUrl,
   };
 
   useEffect(() => {
