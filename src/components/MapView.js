@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { MapContainer, Marker, TileLayer, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import Markers from './Markers';
@@ -7,8 +7,7 @@ import { MyIconLocation } from './IconLocation';
 import ModalLocation from './ModalLocation';
 
 export default function MapView() {
-  const { location } = useContext(LocationContext);
-  const [openModal, setOpenModal] = useState(false);
+  const { location, openModal, setOpenModal } = useContext(LocationContext);
 
   const currentLocation = {
     lat: location.latitude,
@@ -17,16 +16,7 @@ export default function MapView() {
 
   return (
     <>
-      <div>
-        <button
-          onClick={() => {
-            setOpenModal(true);
-          }}
-        >
-          Open modal
-        </button>
-        {openModal && <ModalLocation closeModal={setOpenModal} />}
-      </div>
+      <div>{openModal && <ModalLocation closeModal={setOpenModal} />}</div>
       <div>
         <MapContainer center={currentLocation} zoom={15}>
           <TileLayer
