@@ -7,7 +7,7 @@ const LocationProvider = ({ children }) => {
   const [newPoint, setNewPoint] = useState(false);
   const [modalForm, setModalForm] = useState(false);
   const [title, setTitle] = useState('');
-  const [newPicture, setNewPicture] = useState('');
+  const [newPicture, setNewPicture] = useState(null);
 
   const [location, setLocation] = useState({
     longitude: 0,

@@ -63,7 +63,7 @@ export default function ModalLocation({ closeModal }) {
               <input
                 placeholder="Subir imagen"
                 type="file"
-                onChange={(e) => setNewPicture(e.target.value)}
+                onChange={(e) => setNewPicture(e.target.files[0])}
               />
             </div>
             <div className="footer">

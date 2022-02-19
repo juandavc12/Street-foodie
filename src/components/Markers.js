@@ -3,18 +3,25 @@ import { Marker, Popup, Tooltip, useMapEvents } from 'react-leaflet';
 import { IconLocation } from './IconLocation';
 import firebaseApp from '../firebase';
 import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import LocationContext from '../context/LocationContext';
 
 const db = getFirestore(firebaseApp);
 const storage = getStorage(firebaseApp);
 
 export default function Markers() {
-  const { setOpenModal, newPoint, setNewPoint, title, newPicture } =
-    useContext(LocationContext);
+  const {
+    setOpenModal,
+    newPoint,
+    setNewPoint,
+    title,
+    newPicture,
+    setNewPicture,
+  } = useContext(LocationContext);
 
   const colRef = collection(db, 'places');
   const [places, setPlaces] = useState([]);
+  const [url, setUrl] = useState(null);
 
   const getApi = useCallback(() => {
     getDocs(colRef)
@@ -41,11 +48,28 @@ export default function Markers() {
 
         if (newPoint) {
           getApi();
+          setNewPicture(null);
 
           addDoc(colRef, {
             placeTitle: title,
             geometry: [e.latlng.lat, e.latlng.lng],
+            picPlace: { url },
           });
+
+          const imageRef = ref(storage, `picPlaces/${newPicture.name}${title}`);
+          uploadBytes(imageRef, newPicture)
+            .then(() => {
+              getDownloadURL(imageRef)
+                .then((url) => {
+                  setUrl(url);
+                })
+                .catch((error) => {
+                  console.error(error.message, 'Error getting the image url');
+                });
+            })
+            .catch((error) => {
+              console.error(error.message);
+            });
 
           setNewPoint(false);
           setOpenModal(false);
@@ -54,17 +78,33 @@ export default function Markers() {
     });
     return null;
   };
+  // console.log(addDoc);
+
+  const PlaceMarker = () =>
+    places.map((place) => {
+      return (
+        <Marker key={place.id} position={place.geometry} icon={IconLocation}>
+          <Tooltip>
+            <h1>{place.placeTitle}</h1>
+            <p>{place.id}</p>
+          </Tooltip>
+          <Popup>
+            <img
+              alt={place.placeTitle}
+              src={place.picPlace.url}
+              className="imgPopup"
+              width="100"
+              height="100"
+              object-fit="cover"
+            />
+          </Popup>
+        </Marker>
+      );
+    });
 
   return (
     <>
-      {places.map((place) => {
-        return (
-          <Marker key={place.id} position={place.geometry} icon={IconLocation}>
-            <Tooltip>{place.placeTitle}</Tooltip>
-            <Popup>HI</Popup>
-          </Marker>
-        );
-      })}
+      <PlaceMarker />
       <GetCoords />
     </>
   );
