@@ -70,18 +70,15 @@ export default function Markers() {
       return (
         <Marker key={place.id} position={place.geometry} icon={IconLocation}>
           <Tooltip>
-            <h1>{place.placeTitle}</h1>
-            <p>{place.id}</p>
+            <p>{place.placeTitle}</p>
           </Tooltip>
           <Popup>
             <img
               alt={place.placeTitle}
               src={place.picPlace.url}
               className="imgPopup"
-              width="100"
-              height="100"
-              object-fit="cover"
             />
+            <p>{place.placeTitle}</p>
           </Popup>
         </Marker>
       );

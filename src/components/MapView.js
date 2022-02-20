@@ -5,6 +5,7 @@ import Markers from './Markers';
 import LocationContext from '../context/LocationContext';
 import { MyIconLocation } from './IconLocation';
 import ModalLocation from './ModalLocation';
+import LeafletControlGeocoder from './LeafletControlGeocoder';
 
 export default function MapView() {
   const { location, openModal, setOpenModal } = useContext(LocationContext);
@@ -28,9 +29,12 @@ export default function MapView() {
             position={currentLocation}
             icon={MyIconLocation}
           >
-            <Tooltip>You&apos;re here</Tooltip>
+            <Tooltip>
+              <p>You&apos;re here</p>
+            </Tooltip>
           </Marker>
           <Markers />
+          <LeafletControlGeocoder />
         </MapContainer>
       </div>
     </>

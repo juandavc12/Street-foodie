@@ -19,6 +19,12 @@
     display: flex;
     align-items: center;
 
+    a {
+      p {
+        font-size: 13px;
+      }
+    }
+
     input {
       border: none;
       padding-top: 6px;

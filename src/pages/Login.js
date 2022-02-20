@@ -26,17 +26,17 @@ export default function Login() {
   };
 
   return (
-    <div>
+    <div className="Login">
       <h1>{register ? 'Sign up' : 'Log in'}</h1>
-      <div>
-        <label htmlFor="email">Correo electrónico</label>
+      <div className="FormLogin">
         <input
+          placeholder="Email"
           type="email"
           id="email"
           onChange={(ev) => setEmail(ev.target.value)}
         />
-        <label htmlFor="password">Contraseña</label>
         <input
+          placeholder="Password"
           type="password"
           id="password"
           onChange={(ev) => setPassword(ev.target.value)}
@@ -44,13 +44,21 @@ export default function Login() {
         <button type="submit" onClick={submit}>
           {register ? 'Sign up' : 'Log in'}
         </button>
-        <button onClick={() => signInWithRedirect(auth, googleProvider)}>
-          Acceder con google
+        <button
+          onClick={() => signInWithRedirect(auth, googleProvider)}
+          className="google1"
+        >
+          <div className="google">
+            <img alt="img3" className="imgGoogle" src="Login-4.png" />
+            <p>Continue with Google</p>
+          </div>
+        </button>
+        <button onClick={() => setRegister(!register)}>
+          {register
+            ? 'Have you account? Log in'
+            : 'Do not have account? Sign Up'}
         </button>
       </div>
-      <button onClick={() => setRegister(!register)}>
-        {register ? 'Have you account? Log in' : 'Do not have account? Sign Up'}
-      </button>
     </div>
   );
 }

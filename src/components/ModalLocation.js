@@ -63,7 +63,7 @@ export default function ModalLocation({ closeModal }) {
             <h1>Are you sure you want to continue?</h1>
           </div>
           <div className="body">
-            <p>Add new location</p>
+            <p>Add a new location</p>
           </div>
           <div className="footer">
             <button id="cancelBtn" onClick={noAddNewPoint}>
@@ -77,22 +77,25 @@ export default function ModalLocation({ closeModal }) {
         <div className="modalBackgroundForm">
           <div className="modalContainer">
             <div className="title">
-              <h1>Modal Form</h1>
+              <h1>Add a new location</h1>
             </div>
             <div className="body">
-              <p>Modal Form</p>
+              <div className="formPlace">
+                <input
+                  placeholder="Choose a name for the place"
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+                <label className="uploadFile">
+                  Upload a picture
+                  <input
+                    placeholder="Upload image"
+                    type="file"
+                    onChange={addPicture}
+                  />
+                </label>
+              </div>
             </div>
-            <div>
-              <input
-                placeholder="Title place"
-                onChange={(e) => setTitle(e.target.value)}
-              />
-              <input
-                placeholder="Subir imagen"
-                type="file"
-                onChange={addPicture}
-              />
-            </div>
+            <div></div>
             <div className="footer">
               <button id="cancelBtn" onClick={noAddNewPoint}>
                 Cancel
