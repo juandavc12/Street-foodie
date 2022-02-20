@@ -7,8 +7,41 @@ const auth = getAuth(firebaseApp);
 export default function Profile() {
   return (
     <>
-      <h1>Sesión iniciada</h1>
-      <button onClick={() => signOut(auth)}>Sign out</button>
+      <div className="ProfileContent">
+        <h1>User name</h1>
+
+        <div className="UserCard">
+          <div className="UserPhoto">
+            <img alt="ProfileImg" src="profile_icon.png" />
+          </div>
+          <div className="UserInfo">
+            <ul>
+              <li>
+                <p>Name:</p>
+                <p>Pedro Pepino Papas</p>
+              </li>
+              <li>
+                <p>Email address:</p>
+                <p>juandavc12@test.test</p>
+              </li>
+              <li>
+                <p>Country:</p>
+                <p>Colombia</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="ButtonsProfile">
+          <button className="EditProfileButton">Edit profile</button>
+
+          <button
+            className="SignOutProfileButton"
+            onClick={() => signOut(auth)}
+          >
+            Sign out
+          </button>
+        </div>
+      </div>
     </>
   );
 }
