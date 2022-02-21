@@ -9,6 +9,10 @@
   justify-content: center;
   flex-direction: column;
 
+  a {
+    text-decoration: none;
+  }
+
   .title {
     display: flex;
     padding-top: 65px;
@@ -37,24 +41,11 @@
 
   .searchLocation {
     padding-bottom: 120px;
-    input {
-      width: 600px;
-      height: 74px;
-      outline: none;
-      border: none;
-      border-radius: 3px;
-      position: relative;
-      display: flex;
-      background: white;
-      border-radius: 3px;
-      box-sizing: border-box;
-      padding: 23px 20px;
-      font-size: 20px;
+    p {
+      font-size: 50px;
       font-family: 'Adoha Regular';
-    }
-    ::placeholder {
-      color: rgba(165, 165, 165, 0.63);
-      text-align: justify;
+      text-decoration: none;
+      color: white;
     }
   }
 }

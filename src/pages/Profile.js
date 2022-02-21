@@ -1,54 +1,38 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import firebaseApp from '../firebase';
 import { getAuth, signOut } from 'firebase/auth';
 import { Link } from 'react-router-dom';
-import LocationContext from '../context/LocationContext';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 
 const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
 
 export default function Profile() {
-  const { userEmail, firstName, lastName, UserPhotoUrl } =
-    useContext(LocationContext);
+  const [dataApi, setDataApi] = useState({});
 
-  const [users, setUsers] = useState([]);
+  const getApiDoc = async () => {
+    const colRef = doc(db, 'users', 'myID');
+    const docSnap = await getDoc(colRef);
 
-  const colRef = collection(db, 'users');
+    if (docSnap.exists()) {
+      setDataApi(docSnap.data());
+    } else {
+      // doc.data() will be undefined in this case
+      console.log('No such document!');
+    }
+  };
 
-  const getApi = useCallback(() => {
-    getDocs(colRef)
-      .then((snapshot) => {
-        let usersFirebase = [];
-        snapshot.docs.forEach((doc) => {
-          usersFirebase.push({ ...doc.data(), id: doc.id });
-          console.log(doc.id);
-        });
-        setUsers(usersFirebase);
-        console.log(users);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [colRef]);
+  console.log(dataApi.firstName);
 
   useEffect(() => {
-    getApi();
-    console.groupEnd(users);
-  }, []);
-
-  useEffect(() => {
-    console.log(userEmail);
-    console.log(firstName);
-    console.log(lastName);
-    console.log(UserPhotoUrl);
+    getApiDoc();
   }, []);
 
   return (
     <>
       <div className="ProfileContent">
-        <h1>User name</h1>
+        <h1>{`${dataApi.firstName} ${dataApi.lastName}`}</h1>
 
         <div className="UserCard">
           <div className="UserPhoto">
@@ -58,15 +42,15 @@ export default function Profile() {
             <ul>
               <li>
                 <p>Name:</p>
-                <p>Pedro Pepino Papas</p>
+                <p>{`${dataApi.firstName} ${dataApi.lastName}`}</p>
               </li>
               <li>
                 <p>Email address:</p>
-                <p>juandavc12@test.test</p>
+                <p>{dataApi.userEmail}</p>
               </li>
               <li>
                 <p>Country:</p>
-                <p>Colombia</p>
+                <p>{dataApi.country}</p>
               </li>
             </ul>
           </div>

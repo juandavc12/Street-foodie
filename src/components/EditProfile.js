@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import LocationContext from '../context/LocationContext';
 import firebaseApp from '../firebase';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const db = getFirestore(firebaseApp);
@@ -19,9 +19,11 @@ export default function EditProfile() {
     userPhoto,
     setUserPhoto,
     setUserPhotoUrl,
+    country,
+    setCountry,
   } = useContext(LocationContext);
 
-  const colRef = collection(db, 'users');
+  const colRef = doc(db, 'users', 'myID');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,10 +32,11 @@ export default function EditProfile() {
     function uploadPhoto(callback) {
       uploadBytes(imageRef, userPhoto).then(() => {
         getDownloadURL(imageRef).then((url) => {
-          addDoc(colRef, {
+          setDoc(colRef, {
             firstName,
             lastName,
             userEmail,
+            country,
             userPhotoUrl: { url },
           });
           e.target.reset();
@@ -85,6 +88,14 @@ export default function EditProfile() {
                 type="text"
                 id="email"
                 onChange={(e) => setUserEmail(e.target.value)}
+              />
+            </div>
+            <div className="Email">
+              <input
+                placeholder="Country"
+                type="text"
+                id="country"
+                onChange={(e) => setCountry(e.target.value)}
               />
             </div>
             <div className="UploadContainer">

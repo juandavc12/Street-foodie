@@ -14,6 +14,7 @@ const LocationProvider = ({ children }) => {
   const [lastName, setLastName] = useState('');
   const [userPhoto, setUserPhoto] = useState(null);
   const [userPhotoUrl, setUserPhotoUrl] = useState(null);
+  const [country, setCountry] = useState('');
 
   const [location, setLocation] = useState({
     longitude: 0,
@@ -43,6 +44,8 @@ const LocationProvider = ({ children }) => {
     setUserPhoto,
     userPhotoUrl,
     setUserPhotoUrl,
+    country,
+    setCountry,
   };
 
   useEffect(() => {

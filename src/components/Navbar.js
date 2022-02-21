@@ -25,10 +25,6 @@ export default function NavBar() {
         <Link to={'/map'}>
           <p>Go to my location</p>
         </Link>
-        <input type={'text'} placeholder={'Search a location'} />
-        <button type="button">
-          <img alt="search" src="search.png" />
-        </button>
       </div>
 
       {globalUser ? (

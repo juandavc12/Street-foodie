@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Home() {
   return (
@@ -11,7 +12,9 @@ export default function Home() {
             <span>to find your best food.</span>
           </div>
           <div className="searchLocation">
-            <input type={'text'} placeholder={' Search a location'} />
+            <Link to={'/map'}>
+              <p>Click to view the map</p>
+            </Link>
           </div>
         </div>
       </div>

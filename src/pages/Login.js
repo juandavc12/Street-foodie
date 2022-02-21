@@ -22,6 +22,7 @@ export default function Login() {
       console.log('🚀 ~ file: Login.js ~ line 22 ~ submit ~ user', user);
     } else {
       signInWithEmailAndPassword(auth, email, password);
+      console.log('🚀 ~ file: Login.js ~ line 25 ~ submit ~ auth', auth);
     }
   };
 
