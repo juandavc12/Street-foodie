@@ -9,6 +9,11 @@ const LocationProvider = ({ children }) => {
   const [title, setTitle] = useState('');
   const [newPicture, setNewPicture] = useState(null);
   const [url, setUrl] = useState(null);
+  const [userEmail, setUserEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [userPhoto, setUserPhoto] = useState(null);
+  const [userPhotoUrl, setUserPhotoUrl] = useState(null);
 
   const [location, setLocation] = useState({
     longitude: 0,
@@ -28,6 +33,16 @@ const LocationProvider = ({ children }) => {
     setNewPicture,
     url,
     setUrl,
+    userEmail,
+    setUserEmail,
+    firstName,
+    setFirstName,
+    lastName,
+    setLastName,
+    userPhoto,
+    setUserPhoto,
+    userPhotoUrl,
+    setUserPhotoUrl,
   };
 
   useEffect(() => {

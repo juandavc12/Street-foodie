@@ -2,6 +2,7 @@ import React from 'react';
 
 import firebaseApp from '../firebase';
 import { getAuth, signOut } from 'firebase/auth';
+import { Link } from 'react-router-dom';
 const auth = getAuth(firebaseApp);
 
 export default function Profile() {
@@ -32,7 +33,9 @@ export default function Profile() {
           </div>
         </div>
         <div className="ButtonsProfile">
-          <button className="EditProfileButton">Edit profile</button>
+          <Link to={'/profile/editprofile'}>
+            <button className="EditProfileButton">Edit profile</button>
+          </Link>
 
           <button
             className="SignOutProfileButton"

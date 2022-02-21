@@ -54,8 +54,6 @@ export default function Markers() {
             picPlace: { url },
           });
 
-          // console.log(newPicture);
-
           setNewPoint(false);
           setOpenModal(false);
         }
