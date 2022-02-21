@@ -18,7 +18,6 @@ export default function EditProfile() {
     setLastName,
     userPhoto,
     setUserPhoto,
-    userPhotoUrl,
     setUserPhotoUrl,
   } = useContext(LocationContext);
 
@@ -27,36 +26,37 @@ export default function EditProfile() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const imageRef = ref(storage, `usersPhotos/${userPhoto.name}`);
-    uploadBytes(imageRef, userPhoto)
-      .then(() => {
-        getDownloadURL(imageRef)
-          .then((url) => {
-            setUserPhotoUrl(url);
-          })
-          .catch((error) => {
-            console.error(error.message, 'Error getting the image url');
+    const imageRef = ref(storage, `usersPhotos/${firstName}_${userPhoto.name}`);
+    function uploadPhoto(callback) {
+      uploadBytes(imageRef, userPhoto).then(() => {
+        getDownloadURL(imageRef).then((url) => {
+          addDoc(colRef, {
+            firstName,
+            lastName,
+            userEmail,
+            userPhotoUrl: { url },
           });
-      })
-      .catch((error) => {
-        console.error(error.message);
+          e.target.reset();
+          setUserPhotoUrl(url);
+        });
       });
-    setUserPhoto(null);
+      callback();
+    }
 
-    addDoc(colRef, {
-      firstName,
-      lastName,
-      userEmail,
-      userPhotoUrl: { userPhotoUrl },
-    });
+    function getPhoto() {
+      getDownloadURL(imageRef).then((url) => {
+        setUserPhotoUrl(url);
+        console.log(url);
+      });
+      uploadPhoto();
+    }
 
-    console.log(userPhotoUrl);
-    e.target.reset();
+    getPhoto();
   };
 
   const addUserPhoto = (e) => {
     setUserPhoto(e.target.files[0]);
-    console.log(userPhoto);
+    // console.log(userPhoto);
   };
 
   return (
