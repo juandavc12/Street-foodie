@@ -15,7 +15,7 @@ const LocationProvider = ({ children }) => {
   const [userPhoto, setUserPhoto] = useState(null);
   const [userPhotoUrl, setUserPhotoUrl] = useState('profile_icon.png');
   const [country, setCountry] = useState('');
-  const [userLoged, setUserLoged] = useState(true);
+  const [userLoged, setUserLoged] = useState(false);
   const [newUser, setNewUser] = useState({
     username: '',
     email: '',

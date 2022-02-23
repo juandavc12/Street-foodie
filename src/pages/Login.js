@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import firebaseApp from '../firebase';
 import {
@@ -20,11 +20,14 @@ export default function Login() {
   const navigate = useNavigate();
   const { setUserLoged } = useContext(LocationContext);
 
+  useEffect(() => {
+    setUserLoged(true);
+  }, []);
+
   const submit = async () => {
     if (register) {
       const user = await createUserWithEmailAndPassword(auth, email, password);
       console.log('🚀 ~ file: Login.js ~ line 22 ~ submit ~ user', user);
-      setUserLoged(true);
       navigate('/profile');
     } else {
       signInWithEmailAndPassword(auth, email, password);

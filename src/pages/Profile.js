@@ -4,25 +4,40 @@ import firebaseApp from '../firebase';
 import { getAuth, signOut } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import LocationContext from '../context/LocationContext';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 
 const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
 
 export default function Profile() {
   const user = auth.currentUser;
-  const { userPhotoUrl, country, newUser, userLoged, setUserLoged } =
-    useContext(LocationContext);
+  const {
+    userPhotoUrl,
+    country,
+    newUser,
+    setNewUser,
+    userLoged,
+    setUserLoged,
+  } = useContext(LocationContext);
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
+  const docRef = doc(db, 'users', user.uid);
 
   const SetUserDatabase = async () => {
-    await setDoc(doc(db, 'users', user.uid), {
+    await setDoc(docRef, {
       username: '',
       email: user.email,
       country: country,
       userPic: userPhotoUrl,
     });
+    console.log('set first doc');
+  };
+
+  const getUserDatabase = async () => {
+    const docSnap = await getDoc(docRef);
+    const dataUser = docSnap.data();
+    setNewUser(dataUser);
+    console.log('Document data:', dataUser);
   };
 
   useEffect(() => {
@@ -31,7 +46,7 @@ export default function Profile() {
       console.log('Doc user was created already');
       setUserLoged(false);
     }
-    SetUserDatabase();
+    getUserDatabase();
     setEmail(user.email);
     console.log(newUser);
   }, []);
@@ -48,7 +63,7 @@ export default function Profile() {
 
         <div className="UserCard">
           <div className="UserPhoto">
-            <img alt="ProfileImg" src={userPhotoUrl} />
+            <img alt="ProfileImg" src={newUser.userPic} />
           </div>
           <div className="UserInfo">
             <ul>
