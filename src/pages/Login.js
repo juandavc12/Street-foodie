@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import firebaseApp from '../firebase';
 import {
@@ -9,6 +9,7 @@ import {
   GoogleAuthProvider,
 } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import LocationContext from '../context/LocationContext';
 const auth = getAuth(firebaseApp);
 const googleProvider = new GoogleAuthProvider();
 
@@ -17,15 +18,19 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { setUserLoged } = useContext(LocationContext);
 
   const submit = async () => {
     if (register) {
       const user = await createUserWithEmailAndPassword(auth, email, password);
       console.log('🚀 ~ file: Login.js ~ line 22 ~ submit ~ user', user);
+      setUserLoged(true);
       navigate('/profile');
     } else {
       signInWithEmailAndPassword(auth, email, password);
       console.log('🚀 ~ file: Login.js ~ line 25 ~ submit ~ auth', auth);
+      setUserLoged(false);
+      navigate('/profile');
     }
   };
 

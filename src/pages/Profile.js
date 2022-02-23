@@ -11,14 +11,14 @@ const db = getFirestore(firebaseApp);
 
 export default function Profile() {
   const user = auth.currentUser;
-  const { userPhotoUrl, country, newUser } = useContext(LocationContext);
-  const [name, setName] = useState('');
+  const { userPhotoUrl, country, newUser, userLoged, setUserLoged } =
+    useContext(LocationContext);
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
-  const updateUserDatabase = async () => {
+  const SetUserDatabase = async () => {
     await setDoc(doc(db, 'users', user.uid), {
-      username: user.displayName,
+      username: '',
       email: user.email,
       country: country,
       userPic: userPhotoUrl,
@@ -26,11 +26,14 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    updateUserDatabase();
-    setName(user.displayName);
+    if (userLoged) {
+      SetUserDatabase();
+      console.log('Doc user was created already');
+      setUserLoged(false);
+    }
+    SetUserDatabase();
     setEmail(user.email);
-    console.log(userPhotoUrl);
-    console.log(user);
+    console.log(newUser);
   }, []);
 
   const signout = () => {
@@ -41,7 +44,7 @@ export default function Profile() {
   return (
     <>
       <div className="ProfileContent">
-        <h1>{name}</h1>
+        <h1>{newUser.username}</h1>
 
         <div className="UserCard">
           <div className="UserPhoto">
@@ -51,7 +54,7 @@ export default function Profile() {
             <ul>
               <li>
                 <p>Name:</p>
-                <p>{name}</p>
+                <p>{newUser.username}</p>
               </li>
               <li>
                 <p>Email address:</p>

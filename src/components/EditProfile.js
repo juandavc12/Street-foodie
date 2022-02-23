@@ -4,7 +4,7 @@ import LocationContext from '../context/LocationContext';
 import firebaseApp from '../firebase';
 // import { getFirestore } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { getAuth, updateEmail, updateProfile } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
 
 const storage = getStorage(firebaseApp);
@@ -17,7 +17,6 @@ export default function EditProfile() {
 
   const {
     setNewUser,
-    setUserEmail,
     userEmail,
     firstName,
     setFirstName,
@@ -36,28 +35,28 @@ export default function EditProfile() {
     console.log(user);
   }, []);
 
-  const updateUserEmail = useCallback(() => {
-    updateEmail(user, userEmail)
-      .then(() => {
-        console.log('Email updated');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
+  // const updateUserEmail = useCallback(() => {
+  //   updateEmail(user, userEmail)
+  //     .then(() => {
+  //       console.log('Email updated');
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // });
 
-  const updateUser = useCallback(() => {
-    updateProfile(user, {
-      displayName: `${firstName} ${lastName}`,
-      photoURL: userPhotoUrl,
-    })
-      .then(() => {
-        console.log('User updated');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
+  // const updateUser = useCallback(() => {
+  //   updateProfile(user, {
+  //     displayName: `${firstName} ${lastName}`,
+  //     photoURL: userPhotoUrl,
+  //   })
+  //     .then(() => {
+  //       console.log('User updated');
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // });
 
   const updateDocUser = useCallback(() => {
     updateDoc(docRef, {
@@ -73,55 +72,83 @@ export default function EditProfile() {
     const dataUser = docSnap.data();
     setNewUser(dataUser);
     console.log('Document data:', dataUser);
+    navigate('/profile');
+  };
+
+  const updateNewUser = () => {
+    const imageRef = ref(storage, `usersPhotos/${user.uid}_${userPhoto.name}`);
+
+    uploadBytes(imageRef, userPhoto).then(() => {
+      getDownloadURL(imageRef)
+        .then((url) => {
+          setUserPhotoUrl(url);
+          console.log(url);
+          console.log('upload');
+        })
+
+        .then(() => {
+          updateDocUser();
+        })
+        .then(() => {
+          getUserDatabase();
+        })
+        .then(() => {});
+    });
+    console.log('este despues');
+    // e.target.reset();
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const imageRef = ref(storage, `usersPhotos/${user.uid}_${userPhoto.name}`);
-    function uploadPhoto(callback) {
-      uploadBytes(imageRef, userPhoto).then(() => {
-        getDownloadURL(imageRef)
-          .then((url) => {
-            e.target.reset();
-            setUserPhotoUrl(url);
-            console.log(url);
-            console.log('upload');
-          })
-          .then(() => {
-            updateUserEmail();
-          })
-          .then(() => {
-            updateUser();
-          })
-          .then(() => {
-            updateDocUser();
-          })
-          .then(() => {
-            getUserDatabase();
-          })
-          .then(() => {
-            navigate('/profile');
-          });
-      });
-      console.log('este despues');
-      callback();
-    }
+    // const imageRef = ref(storage, `usersPhotos/${user.uid}_${userPhoto.name}`);
+    updateNewUser();
+    // e.target.reset();
 
-    function getPhoto() {
-      updateProfile(auth.currentUser, {
-        displayName: `${firstName} ${lastName}`,
-        photoURL: { setUserPhotoUrl },
-      });
-      console.log(firstName);
-      console.log(lastName);
-      console.log(country);
+    // function uploadPhoto(callback) {
+    // uploadBytes(imageRef, userPhoto).then(() => {
+    //   getDownloadURL(imageRef)
+    //     .then((url) => {
+    //       setUserPhotoUrl(url);
+    //       console.log(url);
+    //       console.log('upload');
+    //     })
+    //     // .then(() => {
+    //     //   updateUserEmail();
+    //     // })
+    //     // .then(() => {
+    //     //   updateUser();
+    //     // })
+    //     .then(() => {
+    //       updateDocUser();
+    //     })
+    //     .then(() => {
+    //       getUserDatabase();
+    //     })
+    //     .then(() => {
+    //       navigate('/profile');
+    //     });
+    // });
+    // console.log('este despues');
+    // e.target.reset();
 
-      console.log('Este primero');
-      uploadPhoto();
-    }
+    // callback();
+    // }
 
-    getPhoto();
+    // function getPhoto() {
+    //   updateProfile(auth.currentUser, {
+    //     displayName: `${firstName} ${lastName}`,
+    //     photoURL: { setUserPhotoUrl },
+    //   });
+    //   console.log(firstName);
+    //   console.log(lastName);
+    //   console.log(country);
+
+    //   console.log('Este primero');
+    //   uploadPhoto();
+    // }
+
+    // getPhoto();
   };
 
   const addUserPhoto = (e) => {
@@ -148,14 +175,7 @@ export default function EditProfile() {
                 onChange={(e) => setLastName(e.target.value)}
               />
             </div>
-            <div className="Email">
-              <input
-                placeholder="Email"
-                type="text"
-                id="email"
-                onChange={(e) => setUserEmail(e.target.value)}
-              />
-            </div>
+
             <div className="Email">
               <input
                 placeholder="Country"
