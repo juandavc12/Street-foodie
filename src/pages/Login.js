@@ -8,6 +8,7 @@ import {
   signInWithRedirect,
   GoogleAuthProvider,
 } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 const auth = getAuth(firebaseApp);
 const googleProvider = new GoogleAuthProvider();
 
@@ -15,11 +16,13 @@ export default function Login() {
   const [register, setRegister] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const submit = async () => {
     if (register) {
       const user = await createUserWithEmailAndPassword(auth, email, password);
       console.log('🚀 ~ file: Login.js ~ line 22 ~ submit ~ user', user);
+      navigate('/profile');
     } else {
       signInWithEmailAndPassword(auth, email, password);
       console.log('🚀 ~ file: Login.js ~ line 25 ~ submit ~ auth', auth);

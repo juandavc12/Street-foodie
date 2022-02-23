@@ -1,56 +1,65 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import firebaseApp from '../firebase';
 import { getAuth, signOut } from 'firebase/auth';
-import { Link } from 'react-router-dom';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { Link, useNavigate } from 'react-router-dom';
+import LocationContext from '../context/LocationContext';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
 
 const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
 
 export default function Profile() {
-  const [dataApi, setDataApi] = useState({});
+  const user = auth.currentUser;
+  const { userPhotoUrl, country, newUser } = useContext(LocationContext);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const navigate = useNavigate();
 
-  const getApiDoc = async () => {
-    const colRef = doc(db, 'users', 'myID');
-    const docSnap = await getDoc(colRef);
-
-    if (docSnap.exists()) {
-      setDataApi(docSnap.data());
-    } else {
-      // doc.data() will be undefined in this case
-      console.log('No such document!');
-    }
+  const updateUserDatabase = async () => {
+    await setDoc(doc(db, 'users', user.uid), {
+      username: user.displayName,
+      email: user.email,
+      country: country,
+      userPic: userPhotoUrl,
+    });
   };
 
-  console.log(dataApi.firstName);
-
   useEffect(() => {
-    getApiDoc();
+    updateUserDatabase();
+    setName(user.displayName);
+    setEmail(user.email);
+    console.log(userPhotoUrl);
+    console.log(user);
   }, []);
+
+  const signout = () => {
+    signOut(auth);
+    navigate('/login');
+  };
 
   return (
     <>
       <div className="ProfileContent">
-        <h1>{`${dataApi.firstName} ${dataApi.lastName}`}</h1>
+        <h1>{name}</h1>
 
         <div className="UserCard">
           <div className="UserPhoto">
-            <img alt="ProfileImg" src="profile_icon.png" />
+            <img alt="ProfileImg" src={userPhotoUrl} />
           </div>
           <div className="UserInfo">
             <ul>
               <li>
                 <p>Name:</p>
-                <p>{`${dataApi.firstName} ${dataApi.lastName}`}</p>
+                <p>{name}</p>
               </li>
               <li>
                 <p>Email address:</p>
-                <p>{dataApi.userEmail}</p>
+                <p>{email}</p>
               </li>
               <li>
                 <p>Country:</p>
-                <p>{dataApi.country}</p>
+                <p>{newUser.country}</p>
               </li>
             </ul>
           </div>
@@ -60,10 +69,7 @@ export default function Profile() {
             <button className="EditProfileButton">Edit profile</button>
           </Link>
 
-          <button
-            className="SignOutProfileButton"
-            onClick={() => signOut(auth)}
-          >
+          <button className="SignOutProfileButton" onClick={signout}>
             Sign out
           </button>
         </div>

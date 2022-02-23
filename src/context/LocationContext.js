@@ -13,8 +13,14 @@ const LocationProvider = ({ children }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [userPhoto, setUserPhoto] = useState(null);
-  const [userPhotoUrl, setUserPhotoUrl] = useState(null);
+  const [userPhotoUrl, setUserPhotoUrl] = useState('profile_icon.png');
   const [country, setCountry] = useState('');
+  const [newUser, setNewUser] = useState({
+    username: '',
+    email: '',
+    country: '',
+    userPic: userPhotoUrl,
+  });
 
   const [location, setLocation] = useState({
     longitude: 0,
@@ -46,6 +52,8 @@ const LocationProvider = ({ children }) => {
     setUserPhotoUrl,
     country,
     setCountry,
+    newUser,
+    setNewUser,
   };
 
   useEffect(() => {
