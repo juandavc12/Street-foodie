@@ -44,9 +44,6 @@ export default function Markers() {
       click: (e) => {
         getApi();
 
-        setOpenModal(true);
-        setNewPicture(newPicture);
-
         if (newPoint) {
           addDoc(colRef, {
             placeTitle: title,
@@ -56,6 +53,9 @@ export default function Markers() {
 
           setNewPoint(false);
           setOpenModal(false);
+        } else {
+          setOpenModal(true);
+          setNewPicture(newPicture);
         }
       },
     });

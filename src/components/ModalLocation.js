@@ -29,16 +29,17 @@ export default function ModalLocation({ closeModal }) {
   };
 
   const addNewPoint = () => {
-    setModalForm(false);
-    setNewPoint(true);
-    setOpenModal(false);
-
     const imageRef = ref(storage, `picPlaces/${newPicture.name}`);
     uploadBytes(imageRef, newPicture)
       .then(() => {
         getDownloadURL(imageRef)
           .then((url) => {
             setUrl(url);
+          })
+          .then(() => {
+            setModalForm(false);
+            setNewPoint(true);
+            setOpenModal(false);
           })
           .catch((error) => {
             console.error(error.message, 'Error getting the image url');

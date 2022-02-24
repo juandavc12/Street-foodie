@@ -17,6 +17,35 @@ export default function Home() {
             </Link>
           </div>
         </div>
+        <div className="TopLocationsContainer">
+          <div className="TopLocations">
+            <div className="TopLocationsTitle">
+              <p>Recommended locations</p>
+            </div>
+            <div className="TopLocationsCardsContainer">
+              <div className="TopLocationsCards">
+                <img alt="image" src="profile_icon.png" />
+                <p>Di Lucca Yo go</p>
+              </div>
+              <div className="TopLocationsCards">
+                <img alt="image" src="profile_icon.png" />
+                <p>Di Lucca Yo go</p>
+              </div>
+              <div className="TopLocationsCards">
+                <img alt="image" src="profile_icon.png" />
+                <p>Di Lucca Yo go</p>
+              </div>
+              <div className="TopLocationsCards">
+                <img alt="image" src="profile_icon.png" />
+                <p>Di Lucca Yo go</p>
+              </div>
+              <div className="TopLocationsCards">
+                <img alt="image" src="profile_icon.png" />
+                <p>Di Lucca Yo go</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
