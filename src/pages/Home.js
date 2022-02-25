@@ -4,17 +4,24 @@ import { Link } from 'react-router-dom';
 export default function Home() {
   return (
     <>
-      <div className="homeContainer">
-        <div className="header">
-          <div className="title">
-            <span>Use</span>
-            <span className="streetFoodieTitle">Street Foodie</span>
-            <span>to find your best food.</span>
-          </div>
-          <div className="searchLocation">
+      <div className="HomeContainer">
+        <div className="Header">
+          <div className="HeaderLeft">
+            <h1>Street Foodie</h1>
+            <p>
+              Find all the street food in any location. It&apos;s time to eat!
+            </p>
             <Link to={'/map'}>
-              <p>Click to view the map</p>
+              <button>Search Now</button>
             </Link>
+          </div>
+          <div className="HeaderRight">
+            <div className="ImgPoster">
+              <img alt="poster" src="Poster.png" />
+            </div>
+            <div className="CicleOne"></div>
+            <div className="CicleTwo"></div>
+            <div className="Sqrt"></div>
           </div>
         </div>
         <div className="TopLocationsContainer">
